@@ -1,9 +1,13 @@
-import React from 'react'
+import { LoginForm } from "@/features/authentication/components/LoginForm";
 
-const login = () => {
+export default function LoginPage() {
   return (
-    <div>login</div>
-  )
-}
+    <main>
+      <h1>NovaBank</h1>
 
-export default login
+      <h2>Internet Banking</h2>
+
+      <LoginForm />
+    </main>
+  );
+}

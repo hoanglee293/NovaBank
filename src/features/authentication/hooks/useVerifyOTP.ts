@@ -1,3 +1,9 @@
-"use client";
+import { useMutation } from "@tanstack/react-query";
 
-export {};
+import { verifyOTP } from "../api/verify-otp";
+
+export function useVerifyOTP() {
+  return useMutation({
+    mutationFn: verifyOTP,
+  });
+}
