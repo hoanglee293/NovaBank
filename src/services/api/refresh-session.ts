@@ -1,6 +1,6 @@
 import { publicApiClient } from "@/services/api/public-client";
 
-import type { RefreshResponse } from "../types/auth.types";
+import type { RefreshResponse } from "@/features/authentication/types/auth.types";
 
 export async function refreshSession():
   Promise<RefreshResponse> {

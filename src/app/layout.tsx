@@ -1,19 +1,48 @@
-import type { Metadata } from "next";
-import "./globals.css";
+"use client";
 
-export const metadata: Metadata = {
-  title: "NovaBank",
-  description: "Digital banking application",
-};
+import { useRouter } from "next/navigation";
+import {
+  useEffect,
+  type ReactNode,
+} from "react";
 
-export default function RootLayout({
+import { useAuthStore } from "@/stores/auth.store";
+
+interface BankingLayoutProps {
+  children: ReactNode;
+}
+
+export default function BankingLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+}: BankingLayoutProps) {
+  const router = useRouter();
+
+  const status =
+    useAuthStore(
+      (state) => state.status,
+    );
+
+  useEffect(() => {
+    if (
+      status === "unauthenticated"
+    ) {
+      router.replace("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div>
+        Checking session...
+      </div>
+    );
+  }
+
+  if (
+    status === "unauthenticated"
+  ) {
+    return null;
+  }
+
+  return <>{children}</>;
 }

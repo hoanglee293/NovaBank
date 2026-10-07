@@ -1,5 +1,55 @@
-import type { ReactNode } from "react";
+"use client";
 
-export default function BankingLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+import { useRouter } from "next/navigation";
+import {
+  useEffect,
+  type ReactNode,
+} from "react";
+
+import { SessionManager } from "@/features/authentication/components/SessionManager";
+import { useAuthStore } from "@/stores/auth.store";
+
+interface BankingLayoutProps {
+  children: ReactNode;
+}
+
+export default function BankingLayout({
+  children,
+}: BankingLayoutProps) {
+  const router = useRouter();
+
+  const status =
+    useAuthStore(
+      (state) => state.status,
+    );
+
+  useEffect(() => {
+    if (
+      status === "unauthenticated"
+    ) {
+      router.replace("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div>
+        Checking session...
+      </div>
+    );
+  }
+
+  if (
+    status === "unauthenticated"
+  ) {
+    return null;
+  }
+
+  return (
+    <>
+      <SessionManager />
+
+      {children}
+    </>
+  );
 }
