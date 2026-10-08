@@ -1,7 +1,5 @@
-export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <h1 className="text-3xl font-semibold">NovaBank</h1>
-    </main>
-  );
+import { redirect } from "next/navigation";
+
+export default function HomePage() {
+  redirect("/login");
 }
