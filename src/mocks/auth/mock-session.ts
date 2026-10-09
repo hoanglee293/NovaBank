@@ -44,6 +44,12 @@ export function createChallenge(
     challenge,
   );
 
+  console.log("CREATE CHALLENGE", {
+    challengeId,
+    size: challenges.size,
+  });
+
+
   return challenge;
 }
 
@@ -77,6 +83,12 @@ export function verifyChallenge(
   challenges.delete(
     challengeId,
   );
+
+  console.log("VERIFY CHALLENGE", {
+  challengeId,
+  exists: challenges.has(challengeId),
+  size: challenges.size,
+});
 
   return challenge;
 }
