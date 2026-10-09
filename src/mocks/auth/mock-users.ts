@@ -6,7 +6,7 @@ export const mockUsers: MockUser[] = [
 
     fullName: "Nguyen Van A",
 
-    email: "customer@novabank.com",
+    email: "hleees88@gmail.com",
 
     password: "Banking@123",
 

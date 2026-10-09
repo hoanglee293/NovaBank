@@ -1,119 +1,45 @@
 "use client";
 
-import { LogoutButton } from "@/features/authentication/components/LogoutButton";
-import { useAccounts } from "@/features/accounts/hooks/useAccounts";
-import { useAuthStore } from "@/stores/auth.store";
+import dynamic from "next/dynamic";
+
+import { AccountSummary } from
+  "@/features/dashboard/components/AccountSummary";
+
+import { RecentTransactions } from
+  "@/features/dashboard/components/RecentTransactions";
+
+const SpendingAnalytics = dynamic(
+  () =>
+    import(
+      "@/features/dashboard/components/SpendingAnalytics"
+    ).then((module) => module.SpendingAnalytics),
+  {
+    loading: () => (
+      <div className="h-72 animate-pulse rounded-xl bg-slate-200" />
+    ),
+  }
+);
 
 export default function DashboardPage() {
-  const user =
-    useAuthStore(
-      (state) => state.user,
-    );
-
-  const {
-    data: accounts,
-    isLoading,
-    isError,
-    refetch,
-  } = useAccounts();
-
   return (
-    <main>
-      <h1>
-        NovaBank Dashboard
-      </h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">
+          Banking Overview
+        </h1>
 
-      <section>
-        <h2>User</h2>
-
-        <p>
-          Welcome, {user?.fullName}
+        <p className="text-sm text-slate-500">
+          Your financial overview
         </p>
+      </div>
 
-        <p>
-          Email: {user?.email}
-        </p>
+      <AccountSummary />
 
-        <p>
-          Role: {user?.role}
-        </p>
-      </section>
+      <div className="grid gap-6 xl:grid-cols-2">
+        <RecentTransactions />
 
-      <hr />
-
-      <section>
-        <h2>Accounts</h2>
-
-        {isLoading && (
-          <p>
-            Loading accounts...
-          </p>
-        )}
-
-        {isError && (
-          <div>
-            <p>
-              Unable to load
-              accounts.
-            </p>
-
-            <button
-              type="button"
-              onClick={() =>
-                void refetch()
-              }
-            >
-              Retry
-            </button>
-          </div>
-        )}
-
-        {accounts?.map(
-          (account) => (
-            <article
-              key={account.id}
-            >
-              <h3>
-                {
-                  account.accountName
-                }
-              </h3>
-
-              <p>
-                Account:
-                {" "}
-                {
-                  account.accountNumber
-                }
-              </p>
-
-              <p>
-                Balance:
-                {" "}
-                {account.balance.toLocaleString(
-                  "vi-VN",
-                )}
-                {" "}
-                {
-                  account.currency
-                }
-              </p>
-
-              <p>
-                Status:
-                {" "}
-                {
-                  account.status
-                }
-              </p>
-            </article>
-          ),
-        )}
-      </section>
-
-      <hr />
-
-      <LogoutButton />
-    </main>
+        <SpendingAnalytics />
+      </div>
+    </div>
   );
 }

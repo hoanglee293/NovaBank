@@ -1,55 +1,64 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
   useEffect,
   type ReactNode,
 } from "react";
 
-import { SessionManager } from "@/features/authentication/components/SessionManager";
-import { useAuthStore } from "@/stores/auth.store";
+import { useRouter } from "next/navigation";
 
-interface BankingLayoutProps {
+import { BankingSidebar } from
+  "@/components/layout/BankingSidebar";
+
+import { BankingHeader } from
+  "@/components/layout/BankingHeader";
+
+import { SessionManager } from
+  "@/features/authentication/components/SessionManager";
+
+import { useAuthStore } from
+  "@/stores/auth.store";
+
+interface Props {
   children: ReactNode;
 }
 
 export default function BankingLayout({
   children,
-}: BankingLayoutProps) {
+}: Props) {
   const router = useRouter();
 
-  const status =
-    useAuthStore(
-      (state) => state.status,
-    );
+  const status = useAuthStore(
+    (state) => state.status
+  );
 
   useEffect(() => {
-    if (
-      status === "unauthenticated"
-    ) {
+    if (status === "unauthenticated") {
       router.replace("/login");
     }
   }, [status, router]);
 
   if (status === "loading") {
-    return (
-      <div>
-        Checking session...
-      </div>
-    );
+    return <div>Checking session...</div>;
   }
 
-  if (
-    status === "unauthenticated"
-  ) {
+  if (status !== "authenticated") {
     return null;
   }
 
   return (
-    <>
+    <div className="flex min-h-screen bg-slate-50">
       <SessionManager />
 
-      {children}
-    </>
+      <BankingSidebar />
+
+      <div className="min-w-0 flex-1">
+        <BankingHeader />
+
+        <main className="p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

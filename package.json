@@ -26,9 +26,10 @@
     "react-dom": "latest",
     "react-hook-form": "latest",
     "react-redux": "latest",
+    "recharts": "^3.10.1",
     "tailwind-merge": "latest",
-    "zustand": "latest",
-    "zod": "latest"
+    "zod": "latest",
+    "zustand": "latest"
   },
   "devDependencies": {
     "@playwright/test": "latest",
