@@ -1,15 +1,24 @@
 "use client";
 
-import { useQuery } from
-  "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+} from "@tanstack/react-query";
 
 import { getTransactions } from
   "../api/get-transactions";
 
-export function useTransactions() {
+import type { TransactionFilters } from
+  "../types/transaction.types";
+
+export function useTransactions(
+  filters: TransactionFilters
+) {
   return useQuery({
-    queryKey: ["transactions"],
-    queryFn: getTransactions,
+    queryKey: ["transactions", filters],
+    queryFn: () => getTransactions(filters),
+    placeholderData: keepPreviousData,
     staleTime: 30_000,
+    retry: 1,
   });
 }

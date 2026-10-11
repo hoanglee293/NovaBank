@@ -1,74 +1,64 @@
 "use client";
 
+import Link from "next/link";
+
 import { useTransactions } from
   "@/features/transactions/hooks/useTransactions";
 
 export function RecentTransactions() {
-  const {
-    data,
-    isPending,
-    isError,
-    refetch,
-  } = useTransactions();
+  const { data, isPending, isError } =
+    useTransactions({
+      page: 1,
+      pageSize: 5,
+      sortBy: "createdAt",
+      sortOrder: "desc",
+    });
 
   if (isPending) {
-    return <p>Loading transactions...</p>;
-  }
-
-  if (isError) {
     return (
-      <div role="alert">
-        <p>Failed to load transactions.</p>
-        <button onClick={() => void refetch()}>
-          Retry
-        </button>
-      </div>
+      <div className="h-60 animate-pulse rounded-xl bg-slate-200" />
     );
   }
 
-  if (!data?.length) {
-    return <p>No transactions found.</p>;
+  if (isError) {
+    return <p>Unable to load transactions.</p>;
   }
 
   return (
     <section className="rounded-xl border bg-white p-6">
-      <h2 className="mb-5 text-lg font-semibold">
-        Recent Transactions
-      </h2>
+      <div className="mb-5 flex justify-between">
+        <h2 className="text-lg font-semibold">
+          Recent Transactions
+        </h2>
+
+        <Link
+          href="/transactions"
+          className="text-sm text-blue-600"
+        >
+          View all
+        </Link>
+      </div>
 
       <div className="space-y-4">
-        {data.map((transaction) => (
+        {data?.data.map((item) => (
           <div
-            key={transaction.id}
-            className="flex items-center justify-between border-b pb-4"
+            key={item.id}
+            className="flex justify-between gap-4 border-b pb-3"
           >
             <div>
               <p className="font-medium">
-                {transaction.description}
+                {item.description}
               </p>
-
-              <p className="text-sm text-slate-500">
-                {new Date(
-                  transaction.createdAt
-                ).toLocaleDateString("vi-VN")}
-              </p>
-
               <p className="text-xs text-slate-500">
-                {transaction.status}
+                {new Date(item.createdAt).toLocaleDateString("vi-VN")}
               </p>
             </div>
 
-            <p
-              className={
-                transaction.amount >= 0
-                  ? "font-semibold text-green-600"
-                  : "font-semibold text-red-600"
-              }
-            >
+            <p className="font-semibold">
               {new Intl.NumberFormat("vi-VN", {
                 style: "currency",
-                currency: transaction.currency,
-              }).format(transaction.amount)}
+                currency: item.currency,
+              }).format(item.amount)}
             </p>
           </div>
         ))}
