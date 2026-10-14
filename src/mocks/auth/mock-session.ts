@@ -5,14 +5,19 @@ import type {
   MockRefreshSession,
 } from "@/mocks/types/mock-auth.types";
 
+const mockSessionGlobal = globalThis as typeof globalThis & {
+  novaBankMockChallenges?: Map<string, MockChallenge>;
+  novaBankMockRefreshSessions?: Map<string, MockRefreshSession>;
+};
+
+// Keep mock sessions shared across route modules and dev hot reloads.
 const challenges =
-  new Map<string, MockChallenge>();
+  (mockSessionGlobal.novaBankMockChallenges ??=
+    new Map<string, MockChallenge>());
 
 const refreshSessions =
-  new Map<
-    string,
-    MockRefreshSession
-  >();
+  (mockSessionGlobal.novaBankMockRefreshSessions ??=
+    new Map<string, MockRefreshSession>());
 
 const OTP_LIFETIME =
   5 * 60 * 1000;

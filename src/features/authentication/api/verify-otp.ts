@@ -1,5 +1,5 @@
-import { apiClient } from "@/services/api/client";
-
+import { publicApiClient } from "@/services/api/public-client";
+// import { apiClient } from "@/services/api/client";
 import type {
   AuthResponse,
   VerifyOTPPayload,
@@ -9,7 +9,7 @@ export async function verifyOTP(
   payload: VerifyOTPPayload,
 ): Promise<AuthResponse> {
   const response =
-    await apiClient.post<AuthResponse>(
+    await publicApiClient.post<AuthResponse>(
       "/auth/verify-otp",
       payload,
     );

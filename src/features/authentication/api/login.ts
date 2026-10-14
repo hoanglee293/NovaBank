@@ -1,4 +1,4 @@
-import { apiClient } from "@/services/api/client";
+import { publicApiClient } from "@/services/api/public-client";
 
 import type {
   LoginPayload,
@@ -9,7 +9,7 @@ export async function login(
   payload: LoginPayload,
 ): Promise<LoginResponse> {
   const response =
-    await apiClient.post<LoginResponse>(
+    await publicApiClient.post<LoginResponse>(
       "/auth/login",
       payload,
     );

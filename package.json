@@ -13,7 +13,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@hookform/resolvers": "latest",
+    "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-slot": "latest",
     "@reduxjs/toolkit": "latest",
     "@tanstack/react-query": "latest",
@@ -24,11 +24,11 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "latest",
+    "react-hook-form": "^7.90.0",
     "react-redux": "latest",
     "recharts": "^3.10.1",
     "tailwind-merge": "latest",
-    "zod": "latest",
+    "zod": "^4.6.6",
     "zustand": "latest"
   },
   "devDependencies": {

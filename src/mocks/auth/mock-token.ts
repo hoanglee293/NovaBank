@@ -6,11 +6,16 @@ interface AccessTokenPayload {
   expiresAt: number;
 }
 
+const mockTokenGlobal = globalThis as typeof globalThis & {
+  novaBankMockAccessTokens?: Map<string, AccessTokenPayload>;
+};
+
 const accessTokens =
-  new Map<string, AccessTokenPayload>();
+  (mockTokenGlobal.novaBankMockAccessTokens ??=
+    new Map<string, AccessTokenPayload>());
 
 const ACCESS_TOKEN_LIFETIME =
-  10 * 60 * 1000;
+  10 * 60 * 10000;
 
 export function createAccessToken(
   userId: string,

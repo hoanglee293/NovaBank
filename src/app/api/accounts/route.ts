@@ -89,6 +89,26 @@ export async function GET(
 
         status: "ACTIVE",
       },
+       {
+        id: "account_002",
+
+        accountNumber:
+          "34326543",
+
+        accountName:
+          "NGUYEN VAN B",
+
+        type: "CHECKING",
+
+        balance: 125_500_00,
+
+        availableBalance:
+          120_000_00,
+
+        currency: "VND",
+
+        status: "ACTIVE",
+      },
     ],
     {
       status: 200,
